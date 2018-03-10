@@ -3,6 +3,8 @@
 	1. http://learnjsdata.com/getting_started.html
 */
 /* Quote: "src/analysis.js would be where your analysis code goes." */
+/*
+//node.js stuff:
 const http = require('http');
 
 const hostname = '127.0.0.1';
@@ -16,7 +18,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
-});
+});*/
 
 
 d3.csv("/data/cities.csv", function(data) {
