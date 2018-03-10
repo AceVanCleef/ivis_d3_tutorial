@@ -313,3 +313,70 @@ var iteratingAndReducing = function(data) {
 	  .map(function(d) { return d.city; });
 	console.log(bigCities);
 }
+
+
+
+
+//------------------------------------------Grouping Data]
+
+d3.csv("/data/expenses.csv", function(d) {
+	//accessor function: offers full control on how you return each item.
+  return {
+    name : d.name,
+    amount : +d.amount,		//converts from string to int using +.
+    date : d.date		//column header has empty spaces
+  };
+}, function(data) {
+  console.log(data);
+  //call functions to process your data here.
+	groupDataOf(data);
+});
+
+
+var groupDataOf = function(expenses) {
+	//creates a dictionary with name as key.
+	var expensesByName = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .entries(expenses);
+	console.log(expensesByName);
+
+	//creates a (linear) array with {key,value} - pairs as elements. The value can be 
+	//defined by the dev.
+	var expensesCount = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .rollup(function(v) { return v.length; })
+	  .entries(expenses);
+	console.log(JSON.stringify(expensesCount));
+	//...get the mean using d3.mean()
+	var expensesAvgAmount = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .rollup(function(v) { return d3.mean(v, function(d) { return d.amount; }); })
+	  .entries(expenses);
+	console.log(JSON.stringify(expensesAvgAmount));
+	//...accumulate data in an object
+	var expenseMetrics = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .rollup(function(v) { return {
+	    count: v.length,
+	    total: d3.sum(v, function(d) { return d.amount; }),
+	    avg: d3.mean(v, function(d) { return d.amount; })
+	  }; })
+	  .entries(expenses);
+	console.log(JSON.stringify(expenseMetrics));
+
+	//rollup returning an object instead of an array.
+	var expensesTotal = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .rollup(function(v) { return d3.sum(v, function(d) { return d.amount; }); })
+	  .object(expenses);
+	console.log(JSON.stringify(expensesTotal));
+
+
+	//multi-level rollup. Note: the order of .key() functions determines the key-value order.
+	var expensesTotalByDay = d3.nest()
+	  .key(function(d) { return d.name; })
+	  .key(function(d) { return d.date; })
+	  .rollup(function(v) { return d3.sum(v, function(d) { return d.amount; }); })
+	  .object(expenses);
+	console.log(JSON.stringify(expensesTotalByDay));
+}
