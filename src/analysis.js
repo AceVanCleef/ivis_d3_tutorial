@@ -17,3 +17,8 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+
+d3.csv("/data/cities.csv", function(data) {
+  console.log(data[0]);
+});
