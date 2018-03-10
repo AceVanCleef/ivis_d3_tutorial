@@ -15,3 +15,10 @@ directory.
 Alternatively you can use https://jsfiddle.net/
 
 Complete the tutorial at least until (and including) chapter "Nesting and Grouping Data".
+
+### Installing...
+
+- [node.js](https://nodejs.org/en/): Testing successful installation in cmd.exe by typing 'node -v'"' and '"'npm -v'"'.
+- [http-server](https://github.com/indexzero/http-server) for node.js (similiar to xampp). Usage: 
+'''cd /path/to/dir
+http-server'''
